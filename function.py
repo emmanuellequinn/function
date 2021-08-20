@@ -1,5 +1,5 @@
 import wave, struct, sys
-from math import pow, cos, pi
+from math import pow, cos, sin, pi
 
 # command line arguments
 # TODO: better way to parse/organise these
@@ -15,12 +15,23 @@ normalizer = 32768/1.5
 
 def function(func, a, b, x): 
     if func == 'weierstrass':
-         return reduce(lambda sum,n:sum+pow(a,n)*cos(pow(b,n)*pi*x), range(terms), 0)
+        return reduce(lambda sum,n:sum+pow(a,n)*cos(pow(b,n)*pi*x), range(terms), 0)
+    
+    if func == 'chaossine':
+        # f(x) = (2*sin(3/x))+(3*cos(5/x))+(4*sin(6/x))+(1*cos(3/x))
+        # from https://computing.dcu.ie/~humphrys/Notes/Neural/chaos.html 
+        return reduce(lambda sum,n:sum+((a*sin(3/(x+1)))+(b*cos(5/(x+1)))+(a*2*(sin(6/(x+1))))+((b/2)*cos(3/(x+1)))), range(terms), 0)
+    
     else:
         print('invalid function')
 	sys.exit()
 
 def funcToWave(func, a, b):
+    if a.is_integer():
+        a = int(a)
+    if b.is_integer():
+        b = int(b)
+
     output = wave.open("{}-{}-{}.wav".format(func, a, b), 'w')
     output.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
     

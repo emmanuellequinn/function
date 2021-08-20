@@ -21,7 +21,6 @@ def function(func, a, b, x):
 	sys.exit()
 
 def funcToWave(func, a, b):
-    
     output = wave.open("{}-{}-{}.wav".format(func, a, b), 'w')
     output.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
     

@@ -3,6 +3,7 @@ from math import pow, cos, sin, pi
 
 # command line arguments
 # TODO: better way to parse/organise these
+# * add samples, terms, normalizer as optional arguments
 func = sys.argv[1]
 a = float(sys.argv[2])
 b = float(sys.argv[3])
@@ -13,6 +14,9 @@ samples = 100000
 terms = 50
 normalizer = 32768/1.5
 
+# valid functions
+# TODO: is there a better way to organise/define these?
+# * add samples, terms and normalizer as options
 def function(func, a, b, x): 
     if func == 'weierstrass':
         return reduce(lambda sum,n:sum+pow(a,n)*cos(pow(b,n)*pi*x), range(terms), 0)
@@ -26,6 +30,11 @@ def function(func, a, b, x):
         print('invalid function')
 	sys.exit()
 
+# function to wave generator
+# TODO: more customisation:
+# * change length?
+# * loops?
+# * if samples/terms/normalizer can be added to the command, can they be optionally added to the output file name?
 def funcToWave(func, a, b):
     if a.is_integer():
         a = int(a)
@@ -46,6 +55,8 @@ def funcToWave(func, a, b):
         output.writeframes(packed_value)
 
     output.close()
+
+###
 
 if __name__ == "__main__":
     funcToWave(func, a, b)

@@ -134,3 +134,4 @@ dmypy.json
 # wav
 *.wav
 
+.DS_Store
